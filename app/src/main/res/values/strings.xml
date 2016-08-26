@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">OSProjectQueue</string>
+
+    <!--Table Header-->
+    <string name="cpu_burst">CPU BURST</string>
+    <string name="process_id">PROCESS ID</string>
+    <string name="arrival_time">ARRIVAL TIME</string>
+</resources>
