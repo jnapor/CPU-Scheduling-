@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="customFontStyle">
+        <item name="android:background">#00ff00</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>
