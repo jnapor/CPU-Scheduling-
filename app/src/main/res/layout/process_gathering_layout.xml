@@ -24,7 +24,6 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:textStyle="bold"
                     android:text="@string/process_id"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -35,7 +34,6 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:textStyle="bold"
                     android:text="@string/arrival_time"
                     android:gravity="center"
                     android:background="@color/tableHeader"
@@ -45,39 +43,16 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textStyle="bold"
                     android:text="@string/cpu_burst"
                     android:gravity="center"
                     android:background="@color/tableHeader"
                     android:textAppearance="?android:textAppearanceMedium"/>
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/tableHeader"
+                    android:textAppearance="?android:textAppearanceMedium"/>
             </TableRow>
-            <!--<TableRow-->
-                <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/process_label"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:background="@android:color/holo_red_dark"-->
-                    <!--android:textAppearance="?android:textAppearanceMedium"/>-->
-                <!--<EditText-->
-                    <!--android:id="@+id/arrival_time"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:background="@android:color/holo_green_light"-->
-                    <!--android:textAppearance="?android:textAppearanceMedium"/>-->
-                <!--<TextView-->
-                    <!--android:id="@+id/cpu_burst"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:background="@android:color/holo_blue_bright"-->
-                    <!--android:textAppearance="?android:textAppearanceMedium"/>-->
-            <!--</TableRow>-->
         </TableLayout>
     </ScrollView>
 

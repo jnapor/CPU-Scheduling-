@@ -30,4 +30,12 @@
         android:textStyle="bold"
         android:inputType="number"
         android:textAppearance="?android:textAppearanceMedium"/>
+    <ImageButton
+        android:id="@+id/save"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:src="@drawable/button_custom"
+        style="?android:attr/borderlessButtonStyle"/>
 </TableRow>

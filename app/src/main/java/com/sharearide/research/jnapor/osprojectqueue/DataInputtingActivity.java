@@ -1,24 +1,35 @@
 package com.sharearide.research.jnapor.osprojectqueue;
 
-import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DataInputtingActivity extends AppCompatActivity {
-    int counter = 0;
+import com.sharearide.research.jnapor.osprojectqueue.model.ProcessModel;
 
+import java.util.ArrayList;
+
+public class DataInputtingActivity extends AppCompatActivity implements View.OnClickListener{
+    int counter = 0;
+    private FloatingActionButton add;
+    private FloatingActionButton simulate;
+    private TableLayout tableLayout;
+    private TableRow tableRow;
+    private EditText arrivalTime;
+    private EditText cpuBurst;
+    private ImageButton icon;
+    private TextView textView;
+
+    ArrayList<ProcessModel> processModelArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,112 +37,80 @@ public class DataInputtingActivity extends AppCompatActivity {
         setContentView(R.layout.process_gathering_layout);
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-        final TableLayout tableLayout = (TableLayout) scrollView.findViewById(R.id.table);
-
-        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add_process);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Add Process", Toast.LENGTH_SHORT).show();
-                counter++;
-                TableRow tableRow = (TableRow) LayoutInflater.from(view.getContext())
-                        .inflate(R.layout.row_data,tableLayout,false);
-
-                TextView textView = (TextView) tableRow.findViewById(R.id.process_label);
-                textView.setText(String.valueOf(counter));
+        tableLayout = (TableLayout) scrollView.findViewById(R.id.table);
 
 
+        simulate = (FloatingActionButton) findViewById(R.id.simulate);
+        simulate.setEnabled(false);
+        simulate.setOnClickListener(this);
+        add = (FloatingActionButton) findViewById(R.id.add_process);
+        add.setOnClickListener(this);
+    }
 
-//                TableRow tableRow = new TableRow(view.getContext());
-//                tableRow.setLayoutParams(new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-//
-//
-//
-//                TextView textView = new TextView(view.getContext());
-//                textView.setGravity(Gravity.CENTER_HORIZONTAL);
-//                textView.setTypeface(null, Typeface.BOLD);
-//                textView.setText(String.valueOf(counter));
-//                textView.setTextSize(50.0f);
-//
-//                TextView textView1 = new TextView(view.getContext());
-//                textView1.setText(String.valueOf(counter));
-//                textView1.setGravity(Gravity.CENTER);
-//                textView1.setTypeface(null, Typeface.BOLD);
-//
-//                TextView textView2 = new TextView(view.getContext());
-//                textView2.setText(String.valueOf(counter));
-//                textView2.setGravity(Gravity.CENTER);
-//                textView2.setTypeface(null, Typeface.BOLD);
-//                tableRow.addView(textView);
-//                tableRow.addView(textView1);
-//                tableRow.addView(textView2);
-
-//                EditText editText = new EditText(view.getContext());
-//                editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-//                editText.setGravity(Gravity.CENTER);
-//                editText.setTypeface(null, Typeface.BOLD);
-//
-//
-//                EditText editText1 = new EditText(view.getContext());
-//                editText1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-//                editText1.setGravity(Gravity.CENTER);
-//                editText1.setTypeface(null, Typeface.BOLD);
-
-
-
-
-//                TextView textView = new TextView(view.getContext());
-//
-//                EditText editText = new EditText(view.getContext());
-//                EditText editText1 = new EditText(view.getContext());
-//
-//                tableRow.addView(getTextView(textView));
-//                tableRow.addView(getEditTextView(editText));
-//                tableRow.addView(getEditTextView(editText1));
-
-//                tableRow.addView(textView);
-//                tableRow.addView(editText);
-//                tableRow.addView(editText1);
-
-                tableLayout.addView(tableRow);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.add_process:{
+                add.setEnabled(false);
+                Toast.makeText(view.getContext(), "Adding Process", Toast.LENGTH_SHORT).show();
+                addElementsInTable(view);
+                break;
             }
-        });
-
-        FloatingActionButton simulate = (FloatingActionButton) findViewById(R.id.simulate);
-        simulate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            case R.id.simulate: {
                 Toast.makeText(view.getContext(), "Simulate", Toast.LENGTH_SHORT).show();
+                for (ProcessModel p: processModelArrayList) {
+                    Log.e("Simulation", "Process: "+p.getProcessId() + " " + p.getArrivalTime() + " "+p.getCpuBurst());
+                }
+                break;
             }
-        });
-
+            case R.id.save: {
+                validateAndSave(view);
+                break;
+            }
+        }
     }
 
-    private TextView getTextView(TextView textView){
+
+
+    private void addElementsInTable(View view){
         counter++;
+        simulate.setEnabled(false);
+        //Inflating the row data to be added in the table
+        tableRow = (TableRow) LayoutInflater.from(view.getContext())
+                .inflate(R.layout.row_data,tableLayout,false);
+
+
+        /***************Creating references to table row elements*****************/
+        textView = (TextView) tableRow.findViewById(R.id.process_label);
         textView.setText(String.valueOf(counter));
+        arrivalTime = (EditText) tableRow.findViewById(R.id.arrival_time);
+        cpuBurst = (EditText) tableRow.findViewById(R.id.cpu_burst);
+        icon = (ImageButton) tableRow.findViewById(R.id.save);
+        icon.setOnClickListener(this);
 
-        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-        textView.setGravity(Gravity.CENTER);
-        textView.setTypeface(null, Typeface.BOLD);
-        //textView.setTextAppearance( android.R.style.TextAppearance_Medium);
 
-        return textView;
+        tableLayout.addView(tableRow);
     }
 
-    private EditText getEditTextView(EditText editText){
-        editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-        editText.setGravity(Gravity.CENTER);
-        editText.setTypeface(null, Typeface.BOLD);
-        //editText.setTextAppearance(null, android.R.style.TextAppearance_Medium);
+    private void validateAndSave(View view){
+        /***************Validating if arrival time and cpu burst is empty*****************/
+        if(!arrivalTime.getText().toString().isEmpty() && !cpuBurst.getText().toString().isEmpty()){
+            ProcessModel processModel = new ProcessModel(counter,
+                    Integer.parseInt(arrivalTime.getText().toString()),
+                    Integer.parseInt(cpuBurst.getText().toString())
+            );
+            cpuBurst.setEnabled(false); //To make it not editable
+            arrivalTime.setEnabled(false); //To make it not editable
+            icon.setImageResource(R.drawable.button_pressed);
 
-        return editText;
+            Toast.makeText(view.getContext(), "Saved", Toast.LENGTH_SHORT).show();
+            processModelArrayList.add(processModel);
+            simulate.setEnabled(true);
+            add.setEnabled(true);
+        }else{
+            Toast.makeText(view.getContext(), "CPU Burst or Arrival Time is Empty",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

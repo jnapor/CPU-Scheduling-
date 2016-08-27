@@ -2,11 +2,12 @@
     <string name="app_name">OSProjectQueue</string>
 
     <!--Table Header-->
-    <string name="cpu_burst">CPU BURST</string>
-    <string name="process_id">PROCESS ID</string>
-    <string name="arrival_time">ARRIVAL TIME</string>
+    <string name="cpu_burst">CPU Burst</string>
+    <string name="process_id">Process ID</string>
+    <string name="arrival_time">Arrival Time</string>
 
     <!--Button Values-->
     <string name="add_process">Add Process</string>
     <string name="simulate">Simulate Process</string>
+    <string name="save">Save</string>
 </resources>
