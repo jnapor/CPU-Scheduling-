@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -33,28 +34,39 @@ public class DataInputtingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Add Process", Toast.LENGTH_SHORT).show();
                 counter++;
-                TableRow tableRow = new TableRow(view.getContext());
-                tableRow.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+                TableRow tableRow = (TableRow) LayoutInflater.from(view.getContext())
+                        .inflate(R.layout.row_data,tableLayout,false);
 
-
-
-                TextView textView = new TextView(view.getContext());
-                textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView.setTypeface(null, Typeface.BOLD);
+                TextView textView = (TextView) tableRow.findViewById(R.id.process_label);
                 textView.setText(String.valueOf(counter));
-                textView.setTextSize(50.0f);
 
-                TextView textView1 = new TextView(view.getContext());
-                textView1.setText(String.valueOf(counter));
-                textView1.setGravity(Gravity.CENTER);
-                textView1.setTypeface(null, Typeface.BOLD);
 
-                TextView textView2 = new TextView(view.getContext());
-                textView2.setText(String.valueOf(counter));
-                textView2.setGravity(Gravity.CENTER);
-                textView2.setTypeface(null, Typeface.BOLD);
+
+//                TableRow tableRow = new TableRow(view.getContext());
+//                tableRow.setLayoutParams(new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.WRAP_CONTENT,
+//                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+//
+//
+//
+//                TextView textView = new TextView(view.getContext());
+//                textView.setGravity(Gravity.CENTER_HORIZONTAL);
+//                textView.setTypeface(null, Typeface.BOLD);
+//                textView.setText(String.valueOf(counter));
+//                textView.setTextSize(50.0f);
+//
+//                TextView textView1 = new TextView(view.getContext());
+//                textView1.setText(String.valueOf(counter));
+//                textView1.setGravity(Gravity.CENTER);
+//                textView1.setTypeface(null, Typeface.BOLD);
+//
+//                TextView textView2 = new TextView(view.getContext());
+//                textView2.setText(String.valueOf(counter));
+//                textView2.setGravity(Gravity.CENTER);
+//                textView2.setTypeface(null, Typeface.BOLD);
+//                tableRow.addView(textView);
+//                tableRow.addView(textView1);
+//                tableRow.addView(textView2);
 
 //                EditText editText = new EditText(view.getContext());
 //                editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -70,9 +82,7 @@ public class DataInputtingActivity extends AppCompatActivity {
 //                editText1.setTypeface(null, Typeface.BOLD);
 
 
-                tableRow.addView(textView);
-                tableRow.addView(textView1);
-                tableRow.addView(textView2);
+
 
 //                TextView textView = new TextView(view.getContext());
 //
