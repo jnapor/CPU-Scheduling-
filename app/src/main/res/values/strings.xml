@@ -10,4 +10,8 @@
     <string name="add_process">Add Process</string>
     <string name="simulate">Simulate Process</string>
     <string name="save">Save</string>
+
+    <string name="turn_around">Turn-Around Time</string>
+    <string name="waiting_time">Waiting Time</string>
+    <string name="total">Total</string>
 </resources>

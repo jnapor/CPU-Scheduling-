@@ -116,7 +116,7 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
                         Integer.parseInt(arrivalTime.getText().toString()),
                         Integer.parseInt(cpuBurst.getText().toString())
                 );
-                
+
                 cpuBurst.setEnabled(false); //To make it not editable
                 arrivalTime.setEnabled(false); //To make it not editable
                 icon.setImageResource(R.drawable.button_pressed);
