@@ -5,10 +5,12 @@ import java.io.Serializable;
 /**
  * Created by jnapor on 8/28/2016.
  */
-public class ProcessModel implements Serializable{
+public class ProcessModel implements Serializable, Comparable<ProcessModel>{
     private int processId;
     private int arrivalTime;
     private int cpuBurst;
+
+    public static final String KEY = "SERIALIZABLE PROCESS MODEL";
 
     public int getProcessId() {
         return processId;
@@ -39,5 +41,12 @@ public class ProcessModel implements Serializable{
         this.processId = processId;
         this.arrivalTime = arrivalTime;
         this.cpuBurst = cpuBurst;
+    }
+
+    @Override
+    public int compareTo(ProcessModel processModel) {
+        int currentProcessArrivalTime = ((ProcessModel)processModel).getArrivalTime();
+
+        return this.arrivalTime - currentProcessArrivalTime;
     }
 }

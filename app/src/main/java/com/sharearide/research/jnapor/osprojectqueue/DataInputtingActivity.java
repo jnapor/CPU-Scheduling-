@@ -1,5 +1,6 @@
 package com.sharearide.research.jnapor.osprojectqueue;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.sharearide.research.jnapor.osprojectqueue.model.ProcessModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DataInputtingActivity extends AppCompatActivity implements View.OnClickListener{
     int counter = 0;
@@ -59,8 +61,19 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
             case R.id.simulate: {
                 Toast.makeText(view.getContext(), "Simulate", Toast.LENGTH_SHORT).show();
                 for (ProcessModel p: processModelArrayList) {
-                    Log.e("Simulation", "Process: "+p.getProcessId() + " " + p.getArrivalTime() + " "+p.getCpuBurst());
+                    Log.e("Simulation: Be Sorting", "Process: "+p.getProcessId() + " " + p.getArrivalTime() + " "+p.getCpuBurst());
                 }
+                Collections.sort(processModelArrayList);
+                for (ProcessModel p: processModelArrayList) {
+
+                    Log.e("Simulation: Af Sorting", "Process: "+p.getProcessId() + " " + p.getArrivalTime() + " "+p.getCpuBurst());
+                }
+                Intent intent = new Intent(DataInputtingActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ProcessModel.KEY, processModelArrayList);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
                 break;
             }
             case R.id.save: {
@@ -95,18 +108,29 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
     private void validateAndSave(View view){
         /***************Validating if arrival time and cpu burst is empty*****************/
         if(!arrivalTime.getText().toString().isEmpty() && !cpuBurst.getText().toString().isEmpty()){
-            ProcessModel processModel = new ProcessModel(counter,
-                    Integer.parseInt(arrivalTime.getText().toString()),
-                    Integer.parseInt(cpuBurst.getText().toString())
-            );
-            cpuBurst.setEnabled(false); //To make it not editable
-            arrivalTime.setEnabled(false); //To make it not editable
-            icon.setImageResource(R.drawable.button_pressed);
 
-            Toast.makeText(view.getContext(), "Saved", Toast.LENGTH_SHORT).show();
-            processModelArrayList.add(processModel);
-            simulate.setEnabled(true);
-            add.setEnabled(true);
+            if(Integer.parseInt(cpuBurst.getText().toString()) >= 1
+                    && Integer.parseInt(cpuBurst.getText().toString()) >= 1 ){
+
+                ProcessModel processModel = new ProcessModel(counter,
+                        Integer.parseInt(arrivalTime.getText().toString()),
+                        Integer.parseInt(cpuBurst.getText().toString())
+                );
+                
+                cpuBurst.setEnabled(false); //To make it not editable
+                arrivalTime.setEnabled(false); //To make it not editable
+                icon.setImageResource(R.drawable.button_pressed);
+
+                Toast.makeText(view.getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                processModelArrayList.add(processModel);
+                simulate.setEnabled(true);
+                add.setEnabled(true);
+                icon.setEnabled(false);
+
+            }else{
+                Toast.makeText(view.getContext(), "Input a valid CPU Burst or Arrival Time",
+                        Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(view.getContext(), "CPU Burst or Arrival Time is Empty",
                     Toast.LENGTH_SHORT).show();
