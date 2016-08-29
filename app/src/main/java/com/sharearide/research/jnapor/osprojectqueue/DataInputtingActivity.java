@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,6 +33,7 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
     private EditText cpuBurst;
     private ImageButton icon;
     private TextView textView;
+    private MenuItem addProcess;
 
     ArrayList<ProcessModel> processModelArrayList = new ArrayList<>();
 
@@ -37,6 +41,9 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.process_gathering_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         tableLayout = (TableLayout) scrollView.findViewById(R.id.table);
@@ -47,6 +54,34 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
         simulate.setOnClickListener(this);
         add = (FloatingActionButton) findViewById(R.id.add_process);
         add.setOnClickListener(this);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.settings : {
+                return true;
+            }
+            case R.id.clear_table:{
+                Log.e("MENU", " Clear");
+                break;
+            }
+            case R.id.add_item:{
+                Log.e("MENU", " Add");
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

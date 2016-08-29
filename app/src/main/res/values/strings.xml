@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">OSProjectQueue</string>
-
+    <string name="app_name">CPU Scheduling FIFO</string>
+    <string name="clear">Clear</string>
+    <string name="settings">Settings</string>
     <!--Table Header-->
     <string name="cpu_burst">CPU Burst</string>
     <string name="process_id">Process ID</string>
@@ -14,4 +15,5 @@
     <string name="turn_around">Turn-Around Time</string>
     <string name="waiting_time">Waiting Time</string>
     <string name="total">Total</string>
+    <string name="title_activity_input_data">Process Table</string>
 </resources>
