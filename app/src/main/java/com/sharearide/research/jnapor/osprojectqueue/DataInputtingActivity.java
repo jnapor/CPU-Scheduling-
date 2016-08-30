@@ -104,7 +104,7 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
                     Collections.sort(processModelArrayList);
 
                     /***************Creating intent and bundle to send to next activity*****************/
-                    Intent intent = new Intent(DataInputtingActivity.this, MainActivity.class);
+                    Intent intent = new Intent(DataInputtingActivity.this, DataOutputActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProcessModel.KEY, processModelArrayList);
                     intent.putExtras(bundle);
@@ -187,7 +187,7 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
                     public void onClick(DialogInterface dialogInterface, int i) {
                         tableLayout.removeViews(1, (rowCount - 1));
 
-                        Snackbar.make(getWindow().getDecorView(), "CPU Burst or Arrival Time is Empty",
+                        Snackbar.make(getWindow().getDecorView(), "Table of Process is now Empty",
                                 Snackbar.LENGTH_SHORT).show();
 
                         processModelArrayList.clear();

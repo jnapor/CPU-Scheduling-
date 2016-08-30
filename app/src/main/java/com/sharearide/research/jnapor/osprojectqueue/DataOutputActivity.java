@@ -14,12 +14,15 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.sharearide.research.jnapor.osprojectqueue.model.ProcessModel;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class DataOutputActivity extends AppCompatActivity {
     private float[] arrivalTime;
     private float[] cpuBurst;
     private float[] waiting_time;
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         BarDataSet dataSet = new BarDataSet(entries, "BarDataSet");
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         BarData data = new BarData(dataSet);
+        data.setValueFormatter(new MyValueFormatter());
         data.setBarWidth(0.9f);
 
         XAxis xAxis = horizontalBarChart.getXAxis();
@@ -170,5 +174,15 @@ public class MainActivity extends AppCompatActivity {
             sum+=data;
         }
         return (1.0f*sum)/array.length;
+    }
+
+
+    private class MyValueFormatter implements ValueFormatter{
+
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return Math.round(value)+"";
+        }
     }
 }
