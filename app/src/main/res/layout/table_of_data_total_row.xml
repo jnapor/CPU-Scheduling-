@@ -55,25 +55,38 @@
         android:layout_height="3dp"
         android:background="@android:color/black"/>
 
-
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/raw_data"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:textColor="@android:color/black"
+            android:textAppearance="?android:textAppearanceMedium"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/darker_gray"/>
     <LinearLayout
         android:id="@+id/rawDataTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
-        <View
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@android:color/black"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/darker_gray">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,10 +104,6 @@
                     android:textColor="@android:color/black"
                     android:textAppearance="?android:textAppearanceMedium"/>
 
-                <View
-                    android:layout_width="3dp"
-                    android:layout_height="30dp"
-                    android:background="@android:color/black"/>
 
                 <TextView
                     android:text="@string/arrival_time"
@@ -107,10 +116,6 @@
                     android:textColor="@android:color/black"
                     android:textAppearance="?android:textAppearanceMedium"/>
 
-                <View
-                    android:layout_width="3dp"
-                    android:layout_height="30dp"
-                    android:background="@android:color/black"/>
 
                 <TextView
                     android:text="@string/cpu_burst"
@@ -127,6 +132,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:background="@android:color/black"/>
+            android:background="@android:color/darker_gray"/>
     </LinearLayout>
 </LinearLayout>
