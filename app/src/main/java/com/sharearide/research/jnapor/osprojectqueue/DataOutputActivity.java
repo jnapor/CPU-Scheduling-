@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,14 +24,14 @@ import com.sharearide.research.jnapor.osprojectqueue.model.ProcessModel;
 import java.util.ArrayList;
 
 public class DataOutputActivity extends AppCompatActivity {
-    private float[] arrivalTime;
-    private float[] cpuBurst;
     private float[] waiting_time;
     private float[] turn_around;
+    private float[] ganttChartData;
     private String[] waitingTimeText;
     private String[] turnAroundTimeText;
 
     private ArrayList<ProcessModel> arrayList;
+    private ArrayList<Float> timeline;
 
 
 
@@ -45,20 +46,14 @@ public class DataOutputActivity extends AppCompatActivity {
         if (bundle != null) {
             arrayList = (ArrayList<ProcessModel>) bundle.getSerializable(ProcessModel.KEY);
 
-            arrivalTime = new float[arrayList.size()];
-            cpuBurst = new float[arrayList.size()];
             waiting_time = new float[arrayList.size()];
             turn_around = new float[arrayList.size()];
             waitingTimeText = new String[arrayList.size()];
             turnAroundTimeText = new String[arrayList.size()];
 
-            for (int count = 0; count < arrayList.size(); count++) {
-                arrivalTime[count] = (float) arrayList.get(count).getArrivalTime();
-                cpuBurst[count] = (float) arrayList.get(count).getCpuBurst();
-            }
 
-            initializeChart();
             calculateWaitingTimeAndTurnAroundTime();
+            initializeChart();
             inflateRowData();
 
             bundle.clear();
@@ -71,16 +66,19 @@ public class DataOutputActivity extends AppCompatActivity {
         HorizontalBarChart horizontalBarChart = (HorizontalBarChart) linearLayout.findViewById(R.id.bar_chart);
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        entries.add(new BarEntry(0f, cpuBurst));
+        entries.add(new BarEntry(0f, ganttChartData));
 
         BarDataSet dataSet = new BarDataSet(entries, "BarDataSet");
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         BarData data = new BarData(dataSet);
         data.setValueFormatter(new MyValueFormatter());
         data.setBarWidth(0.9f);
+        data.setDrawValues(false);
+
 
         XAxis xAxis = horizontalBarChart.getXAxis();
         xAxis.setEnabled(false);
+
 
         YAxis yAxis = horizontalBarChart.getAxisLeft();
         yAxis.setDrawLabels(true);
@@ -96,6 +94,7 @@ public class DataOutputActivity extends AppCompatActivity {
         YAxis yAxis1 = horizontalBarChart.getAxisRight();
         yAxis1.setEnabled(false);
 
+
         horizontalBarChart.setDescription("");
         horizontalBarChart.setDrawBorders(false);
         horizontalBarChart.setData(data);
@@ -104,6 +103,7 @@ public class DataOutputActivity extends AppCompatActivity {
         horizontalBarChart.setDoubleTapToZoomEnabled(false);
         horizontalBarChart.animateY(3000);
         horizontalBarChart.setDrawValueAboveBar(true);
+
     }
 
     private void inflateRowData(){
@@ -149,22 +149,64 @@ public class DataOutputActivity extends AppCompatActivity {
     }
 
     private void calculateWaitingTimeAndTurnAroundTime(){
-        float currentCPUBurst = 0;
-        for (int x = 0; x < arrayList.size(); x++){
+        float currentCpuBurst = 0;
+        timeline = new ArrayList<>();
+        int timeLineCounter = -1;
+        for(int x = 0; x < arrayList.size(); x++){
             if(x == 0){
-                waiting_time[x] = 0;
-                waitingTimeText[x] = "P" + (x + 1) + ": " +arrivalTime[x]+" - "+arrivalTime[x]
-                        +" = "+ waiting_time[x];
-            }else{
-                waiting_time[x] = currentCPUBurst - arrivalTime[x];
-                waitingTimeText[x] = "P" + (x + 1) + ": " +cpuBurst[x]+" - "+arrivalTime[x]
-                        +" = "+waiting_time[x];
-            }
-            currentCPUBurst += cpuBurst[x];
-            turn_around[x] = currentCPUBurst - arrivalTime[x];
+                if (arrayList.get(x).getArrivalTime() > 0){
+                    timeline.add(1.0f * arrayList.get(x).getArrivalTime());
+                }else {
+                    timeline.add(0f);
+                }
 
-            turnAroundTimeText[x] = "P" + (x + 1) + ": " +currentCPUBurst+" - "+arrivalTime[x]
-                    +" = "+turn_around[x];
+                timeLineCounter++;
+                waiting_time[x] = timeline.get(timeLineCounter) - arrayList.get(x).getArrivalTime();
+                waitingTimeText[x] = "Pid " + arrayList.get(x).getProcessId() + ": " +timeline.get(timeLineCounter)
+                        +" - "+timeline.get(timeLineCounter) +" = "+ waiting_time[x];
+
+                currentCpuBurst = timeline.get(timeLineCounter) + arrayList.get(x).getCpuBurst();
+
+                turn_around[x] = currentCpuBurst - arrayList.get(x).getArrivalTime();
+                turnAroundTimeText[x] = "Pid " + arrayList.get(x).getProcessId() + ": " +currentCpuBurst
+                        +" - "+arrayList.get(x).getArrivalTime() +" = "+turn_around[x];
+
+
+                timeline.add(currentCpuBurst);
+                timeLineCounter++;
+            }else{
+                if (timeline.get(timeLineCounter) < arrayList.get(x).getArrivalTime()){
+                    timeline.add(1.0f * arrayList.get(x).getArrivalTime());
+                    timeLineCounter++;
+                }
+                waiting_time[x] = timeline.get(timeLineCounter) - arrayList.get(x).getArrivalTime();
+                waitingTimeText[x] = "Pid " + arrayList.get(x).getProcessId() + ": " +timeline.get(timeLineCounter)
+                        +" - "+arrayList.get(x).getArrivalTime() +" = "+ waiting_time[x];
+
+
+                currentCpuBurst = timeline.get(timeLineCounter) +  arrayList.get(x).getCpuBurst();
+
+                if(timeline.get(timeLineCounter) > arrayList.get(x).getArrivalTime()){
+
+                    turn_around[x] = currentCpuBurst - timeline.get(timeLineCounter)
+                            + (timeline.get(timeLineCounter) - arrayList.get(x).getArrivalTime());
+
+                    turnAroundTimeText[x] = "Pid " + arrayList.get(x).getProcessId() + ": "+
+                            currentCpuBurst + " - "+arrayList.get(x).getArrivalTime() +" = "+turn_around[x];
+                }else{
+                    turn_around[x] = currentCpuBurst - timeline.get(timeLineCounter);
+                    turnAroundTimeText[x] = "Pid " + arrayList.get(x).getProcessId() + ": "+ currentCpuBurst
+                            + " - "+timeline.get(timeLineCounter) +" = "+turn_around[x];
+                }
+
+                timeline.add(currentCpuBurst);
+                timeLineCounter++;
+            }
+        }
+
+        ganttChartData = new float[timeline.size()];
+        for (int i = 0; i < timeline.size(); i++) {
+            ganttChartData[i] = timeline.get(i);
         }
     }
     

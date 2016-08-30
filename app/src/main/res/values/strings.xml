@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CPU Scheduling FIFO</string>
+    <string name="app_name">CPU Scheduling FCFS</string>
     <string name="clear">Clear</string>
     <string name="settings">Settings</string>
     <!--Table Header-->

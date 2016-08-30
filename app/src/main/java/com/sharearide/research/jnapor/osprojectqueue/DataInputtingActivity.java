@@ -78,7 +78,6 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
                 if(counter > 0){
                     rowCount = tableLayout.getChildCount();
                     showAlertDialog();
-                    counter = 0;
                 }else{
                     Snackbar.make( getWindow().getDecorView(), "Table is empty", Snackbar.LENGTH_SHORT).show();
                 }
@@ -191,6 +190,8 @@ public class DataInputtingActivity extends AppCompatActivity implements View.OnC
                                 Snackbar.LENGTH_SHORT).show();
 
                         processModelArrayList.clear();
+
+                        counter = 0;
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

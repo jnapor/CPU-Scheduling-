@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class ProcessModel implements Serializable, Comparable<ProcessModel>{
     private int processId;
-    private int arrivalTime;
-    private int cpuBurst;
+    private float arrivalTime;
+    private float cpuBurst;
 
     public static final String KEY = "SERIALIZABLE PROCESS MODEL";
 
@@ -20,7 +20,7 @@ public class ProcessModel implements Serializable, Comparable<ProcessModel>{
         this.processId = processId;
     }
 
-    public int getArrivalTime() {
+    public float getArrivalTime() {
         return arrivalTime;
     }
 
@@ -28,7 +28,7 @@ public class ProcessModel implements Serializable, Comparable<ProcessModel>{
         this.arrivalTime = arrivalTime;
     }
 
-    public int getCpuBurst() {
+    public float getCpuBurst() {
         return cpuBurst;
     }
 
@@ -45,8 +45,8 @@ public class ProcessModel implements Serializable, Comparable<ProcessModel>{
 
     @Override
     public int compareTo(ProcessModel processModel) {
-        int currentProcessArrivalTime = ((ProcessModel)processModel).getArrivalTime();
+        float currentProcessArrivalTime = processModel.getArrivalTime();
 
-        return this.arrivalTime - currentProcessArrivalTime;
+        return (int)this.arrivalTime - (int)currentProcessArrivalTime;
     }
 }
