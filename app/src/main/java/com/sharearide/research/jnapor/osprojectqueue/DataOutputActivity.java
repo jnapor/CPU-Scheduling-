@@ -133,6 +133,9 @@ public class DataOutputActivity extends AppCompatActivity {
         LinearLayout aveText = (LinearLayout) averageWaitingAndTurnAround
                 .findViewById(R.id.linearLayoutTableRowAverage);
 
+        LinearLayout rawDataLayout = (LinearLayout) averageWaitingAndTurnAround
+                .findViewById(R.id.rawDataTable);
+
 
         String averageWaitingTime = "Average: "+getAverage(waiting_time)+" ms";
         String averageturnAroundTime = "Average: "+getAverage(turn_around)+" ms";
@@ -145,7 +148,23 @@ public class DataOutputActivity extends AppCompatActivity {
         aveTA.setText(averageturnAroundTime);
 
         linearLayout.addView(averageWaitingAndTurnAround);
-        
+
+
+        for (ProcessModel p: arrayList) {
+            LinearLayout rawData = (LinearLayout) LayoutInflater.from(this)
+                    .inflate(R.layout.row_of_raw_data, linearLayout, false);
+
+            TextView processId = (TextView) rawData.findViewById(R.id.process_id_raw_data);
+            processId.setText(String.valueOf(p.getProcessId()));
+
+            TextView processArrival = (TextView) rawData.findViewById(R.id.process_arrival_raw_data);
+            processArrival.setText(String.valueOf(p.getArrivalTime()));
+
+            TextView processCPU = (TextView) rawData.findViewById(R.id.process_cpuBurst_raw_data);
+            processCPU.setText(String.valueOf(p.getCpuBurst()));
+
+            linearLayout.addView(rawData);
+        }
     }
 
     private void calculateWaitingTimeAndTurnAroundTime(){
